@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/camilo/Documents/omplplanning/myplanners/build",
+  "command": "/usr/bin/c++      -o CMakeFiles/planners.dir/RigidBodyPlanning.cpp.o -c /home/camilo/Documents/omplplanning/myplanners/RigidBodyPlanning.cpp",
+  "file": "/home/camilo/Documents/omplplanning/myplanners/RigidBodyPlanning.cpp"
+}
+]
