@@ -1,3 +1,6 @@
+# RRSTAR
+ RigidBodyPlanning_RRTStar.cpp
+
 # Build code
 cd build
 make
