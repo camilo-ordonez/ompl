@@ -6,11 +6,20 @@ cd build
 make
 
 # To run code
-./planner ostacles.txt
+./planers_bench
 
-RRTStar will run for a set runtime
+# required files
+allscenarios.txt -> file organized by rows. First column has num obstacles and then x_obs, y_obs, rad_obs
 
-where the obstacle files are .txt files with the x y and radii of the circular objects ( 3 columns)
+times.txt -> file with one column with the time it took SBMPO to solve each scenario
+
+RRTStar will run each scenario for the runtime associated with the scenario
+
+The code will produce the following files:
+
+costs_results.txt -> file with one column containing the RRT* path cost of each scenario
+
+result.txt -> resulting path for the last scenario
 
 # Visualizing results
 The planner generates a txt file with the results (results.txt)
