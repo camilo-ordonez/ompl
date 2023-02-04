@@ -63,10 +63,72 @@ namespace ob = ompl::base;
 namespace og = ompl::geometric;
 
 
-
+std::vector<std::vector<std::array<float,3>>> obstaclesList; // all scenarios
 std::vector<std::array<float,3>> obstacles_; //x,y,rad
+
 int num_obst_; // number of obstacles in the map
 float robot_rad_ = 0.1;
+
+// function to read CSV file with many obstacle scenarios
+// file should be organized by rows. First col is the number of obstacles
+// then it goes x_obst y_obst rad_obst
+
+void readObstaclesFromFile(const std::string& filename, std::vector<std::vector<std::array<float,3>>> obstaclesList) {
+
+        std::ifstream myFile(filename);
+        if(!myFile.is_open()) 
+            throw std::runtime_error("Could not open file");
+
+        std::string line, value;
+        while (std::getline(myFile, line)) {
+
+            std::vector<std::array<float,3>> obstacles;
+            std::stringstream ss(line);
+
+            std::getline(ss, value, ',');
+            int num_obstacles = std::stoi(value);
+
+            for (int obs = 0; obs < num_obstacles; obs++) {
+
+                float x,y,r;
+
+                std::getline(ss, value, ',');
+                x = std::stof(value);
+                std::getline(ss, value, ',');
+                y = std::stof(value);
+                std::getline(ss, value, ',');
+                r = std::stof(value);
+
+                obstacles.push_back({x, y, r});
+            }
+
+            obstaclesList.push_back(obstacles);
+        }
+    }
+
+
+void printObstacleList(std::vector<std::vector<std::array<float,3>>> obstaclesList){
+
+    int no_scenarios = 2;
+    int no_obst;
+
+    for (int j = 0; j < no_scenarios; j++){
+        no_obst = obstaclesList[j].size();
+        std::cout<<"num obstacles"<< no_obst << std::endl;
+
+/*
+        for (int i = 0; i< num_obst_; i++){
+        
+            std::cout<<obstacles_[i][0]<<"\t";
+            std::cout<<obstacles_[i][1]<<"\t";
+            std::cout<<obstacles_[i][2]<<std::endl;
+        }
+  */  
+    }
+    
+    //obstaclesList[0][0][0]
+
+}
 
 
 void LoadMap(const std::string& file_name){
@@ -271,7 +333,7 @@ void plan()
     // start timer
     auto start_time = std::chrono::high_resolution_clock::now();
 
-    ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
+    ob::PlannerStatus solved = planner->ob::Planner::solve(0.009);
 
     auto stop_time = std::chrono::high_resolution_clock::now();
 
@@ -289,7 +351,9 @@ void plan()
 
 
         //Added stuff
-         //std::cout  << pdef->getSolutionPath()->length();
+        std::cout << "Path cost" << std::endl;
+
+         std::cout  << pdef->getSolutionPath()->length();
          // print result to screen
          //std::static_pointer_cast<og::PathGeometric>(pdef->getSolutionPath())->printAsMatrix(std::cout);
          
@@ -388,11 +452,16 @@ void planWithSimpleSetup()
         std::cout << "No solution found" << std::endl;
 }
 
-//int main(int /*argc*/, char ** /*argv*/)
+
 int main(int argc, char *argv[])
 {
 
-   
+   std::string scenarios_filename = "/home/camilo/Documents/omplplanning/myplanners_rand/allscenarios.txt";
+   readObstaclesFromFile(scenarios_filename,obstaclesList);
+   printObstacleList(obstaclesList);
+
+  
+/* 
    if(argc <2){
     std::cout << "provide obstacle filename" << std::endl;
     return 1;
@@ -415,14 +484,9 @@ int main(int argc, char *argv[])
 
     std::cout << "OMPL version: " << OMPL_VERSION << std::endl;
 
-    //plan();
-
-    //std::cout << std::endl << std::endl;
-    //std::cout << " start collision" <<  CheckCollision(1.0, 1.0) << std::endl;
-
-    //planWithSimpleSetup();
+    
     plan();
-
+*/
     return 0;
 }
 
