@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/camilo/Documents/omplplanning/myplanners/RigidBodyPlanning_RRTStar.cpp
+/home/camilo/Documents/omplplanning/myplanners_rand/RigidBodyPlanning_RRTStar.cpp
 ompl/base/SpaceInformation.h
 -
 ompl/base/spaces/SE2StateSpace.h
@@ -25,7 +25,13 @@ ompl/config.h
 -
 iostream
 -
+string
+-
 fstream
+-
+stdexcept
+-
+sstream
 -
 array
 -

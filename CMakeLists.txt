@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13.4)
 
-project(planners)
+project(planners_bench)
 #set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(ompl)
